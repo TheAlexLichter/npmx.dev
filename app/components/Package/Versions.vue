@@ -19,6 +19,45 @@ const props = defineProps<{
   time: Record<string, string>
 }>()
 
+const chartModal = useModal('chart-modal')
+const hasDistributionModalTransitioned = shallowRef(false)
+const isDistributionModalOpen = shallowRef(false)
+let distributionModalFallbackTimer: ReturnType<typeof setTimeout> | null = null
+
+function clearDistributionModalFallbackTimer() {
+  if (distributionModalFallbackTimer) {
+    clearTimeout(distributionModalFallbackTimer)
+    distributionModalFallbackTimer = null
+  }
+}
+
+async function openDistributionModal() {
+  isDistributionModalOpen.value = true
+  hasDistributionModalTransitioned.value = false
+  // ensure the component renders before opening the dialog
+  await nextTick()
+  chartModal.open()
+
+  // Fallback: Force mount if transition event doesn't fire
+  clearDistributionModalFallbackTimer()
+  distributionModalFallbackTimer = setTimeout(() => {
+    if (!hasDistributionModalTransitioned.value) {
+      hasDistributionModalTransitioned.value = true
+    }
+  }, 500)
+}
+
+function closeDistributionModal() {
+  isDistributionModalOpen.value = false
+  hasDistributionModalTransitioned.value = false
+  clearDistributionModalFallbackTimer()
+}
+
+function handleDistributionModalTransitioned() {
+  hasDistributionModalTransitioned.value = true
+  clearDistributionModalFallbackTimer()
+}
+
 /** Maximum number of dist-tag rows to show before collapsing into "Other versions" */
 const MAX_VISIBLE_TAGS = 10
 
@@ -304,14 +343,15 @@ function getTagVersions(tag: string): VersionDisplay[] {
     id="versions"
   >
     <template #actions>
-      <LinkBase
-        variant="button-secondary"
-        :to="`https://majors.nullvoxpopuli.com/q?packages=${packageName}`"
+      <ButtonBase
+        variant="secondary"
+        class="text-fg-subtle hover:text-fg transition-colors duration-200 inline-flex items-center justify-center min-w-6 min-h-6 -m-1 p-1 rounded"
         :title="$t('package.downloads.community_distribution')"
         classicon="i-carbon:load-balancer-network"
+        @click="openDistributionModal"
       >
         <span class="sr-only">{{ $t('package.downloads.community_distribution') }}</span>
-      </LinkBase>
+      </ButtonBase>
     </template>
     <div class="space-y-0.5 min-w-0">
       <!-- Dist-tag rows (limited to MAX_VISIBLE_TAGS) -->
@@ -569,7 +609,7 @@ function getTagVersions(tag: string): VersionDisplay[] {
                   <div class="flex items-center gap-2 min-w-0">
                     <button
                       type="button"
-                      class="w-4 h-4 flex items-center justify-center text-fg-subtle hover:text-fg transition-colors shrink-0 focus-visible:outline-accent/70 rounded-sm"
+                      class="w-4 h-4 flex items-center justify-center text-fg-subtle hover:text-fg transition-colors shrink-0 rounded-sm"
                       :aria-expanded="expandedMajorGroups.has(group.groupKey)"
                       :aria-label="
                         expandedMajorGroups.has(group.groupKey)
@@ -771,4 +811,41 @@ function getTagVersions(tag: string): VersionDisplay[] {
       </div>
     </div>
   </CollapsibleSection>
+
+  <!-- Version Distribution Modal -->
+  <PackageChartModal
+    v-if="isDistributionModalOpen"
+    :title="$t('package.versions.distribution_modal_title')"
+    @close="closeDistributionModal"
+    @transitioned="handleDistributionModalTransitioned"
+  >
+    <!-- The Chart is mounted after the dialog has transitioned -->
+    <!-- This avoids flaky behavior and ensures proper modal lifecycle -->
+    <Transition name="opacity" mode="out-in">
+      <PackageVersionDistribution
+        v-if="hasDistributionModalTransitioned"
+        :package-name="packageName"
+        :in-modal="true"
+      />
+    </Transition>
+
+    <!-- This placeholder bears the same dimensions as the VersionDistribution component -->
+    <!-- Avoids CLS when the dialog has transitioned -->
+    <div
+      v-if="!hasDistributionModalTransitioned"
+      class="w-full aspect-[272/609] sm:aspect-[671/516]"
+    />
+  </PackageChartModal>
 </template>
+
+<style scoped>
+.opacity-enter-active,
+.opacity-leave-active {
+  transition: opacity 200ms ease;
+}
+
+.opacity-enter-from,
+.opacity-leave-to {
+  opacity: 0;
+}
+</style>
