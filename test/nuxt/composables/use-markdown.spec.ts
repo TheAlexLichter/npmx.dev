@@ -344,5 +344,10 @@ describe('useMarkdown', () => {
       const processed = useMarkdown({ text: '<!-- automd:badges color=yellow -->' })
       expect(processed.value).toBe('')
     })
+
+    it('strips unclosed HTML comments (truncated)', () => {
+      const processed = useMarkdown({ text: 'A library <!-- automd:badges color=yel' })
+      expect(processed.value).toBe('A library ')
+    })
   })
 })

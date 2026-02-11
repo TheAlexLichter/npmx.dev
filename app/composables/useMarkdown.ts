@@ -37,8 +37,8 @@ function stripAndEscapeHtml(text: string, packageName?: string): string {
   // Only match tags that start with a letter or / (to avoid matching things like "a < b > c")
   stripped = stripped.replace(/<\/?[a-z][^>]*>/gi, '')
 
-  // Strip HTML comments: <!-- ... -->
-  stripped = stripped.replace(/<!--[\s\S]*?-->/g, '')
+  // Strip HTML comments: <!-- ... --> (including unclosed comments from truncation)
+  stripped = stripped.replace(/<!--[\s\S]*?(-->|$)/g, '')
 
   if (packageName) {
     // Trim first to handle leading/trailing whitespace from stripped HTML
