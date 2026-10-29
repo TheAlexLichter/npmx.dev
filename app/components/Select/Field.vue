@@ -34,7 +34,7 @@ interface SelectFieldProps extends SelectBaseProps {
 const props = withDefaults(defineProps<SelectFieldProps>(), {
   size: 'md',
 })
-const model = defineModel<T>()
+const model = defineModel<T>({ required: true })
 </script>
 
 <template>

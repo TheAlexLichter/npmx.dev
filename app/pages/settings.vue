@@ -83,8 +83,7 @@ useSeoMeta({
               </label>
               <SelectField
                 id="theme-select"
-                :model-value="colorMode.preference"
-                @update:model-value="value => value !== undefined && (colorMode.preference = value)"
+                v-model="colorMode.preference"
                 block
                 size="sm"
                 class="max-w-48"
@@ -206,10 +205,7 @@ useSeoMeta({
                     { label: $t('settings.data_source.npm'), value: 'npm' },
                     { label: $t('settings.data_source.algolia'), value: 'algolia' },
                   ]"
-                  :model-value="settings.searchProvider"
-                  @update:model-value="
-                    value => value !== undefined && (settings.searchProvider = value)
-                  "
+                  v-model="settings.searchProvider"
                   block
                   size="sm"
                   class="max-w-48"
@@ -217,6 +213,7 @@ useSeoMeta({
                 <template #fallback>
                   <SelectField
                     id="search-provider-select"
+                    model-value="loading"
                     disabled
                     :items="[{ label: $t('common.loading'), value: 'loading' }]"
                     block
@@ -275,8 +272,7 @@ useSeoMeta({
                 <SelectField
                   id="language-select"
                   :items="locales.map(loc => ({ label: loc.name ?? '', value: loc.code }))"
-                  :model-value="currentLocale"
-                  @update:model-value="value => value !== undefined && (currentLocale = value)"
+                  v-model="currentLocale"
                   block
                   size="sm"
                   class="max-w-48"
@@ -284,6 +280,7 @@ useSeoMeta({
                 <template #fallback>
                   <SelectField
                     id="language-select"
+                    model-value="loading"
                     disabled
                     :items="[{ label: $t('common.loading'), value: 'loading' }]"
                     block

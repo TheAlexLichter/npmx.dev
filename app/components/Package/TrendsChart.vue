@@ -1654,8 +1654,7 @@ const copyEmbedUrl = () => copyEmbed(embedUrl.value)
   >
     <TabRoot
       v-if="isMultiPackageMode"
-      :model-value="chartLayout"
-      @update:model-value="value => value !== undefined && (chartLayout = value)"
+      v-model="chartLayout"
       id-prefix="chart-layout"
       class="mt-4 mb-8"
     >
@@ -1678,8 +1677,7 @@ const copyEmbedUrl = () => copyEmbed(embedUrl.value)
         <SelectField
           v-if="showFacetSelector"
           id="trends-metric-select"
-          :model-value="selectedMetric"
-          @update:model-value="value => value !== undefined && (selectedMetric = value)"
+          v-model="selectedMetric"
           :disabled="activeMetricState.pending"
           :items="METRICS.map(m => ({ label: m.label, value: m.id }))"
           :label="$t('package.trends.facet')"
@@ -1689,8 +1687,7 @@ const copyEmbedUrl = () => copyEmbed(embedUrl.value)
         <SelectField
           :label="$t('package.trends.granularity')"
           id="granularity"
-          :model-value="selectedGranularity"
-          @update:model-value="value => value !== undefined && (selectedGranularity = value)"
+          v-model="selectedGranularity"
           :disabled="activeMetricState.pending"
           :items="granularityItems"
           block

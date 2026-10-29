@@ -77,8 +77,7 @@ const showFilteredCount = computed(() => {
       hidden-label
       id="package-sort"
       class="relative shrink-0"
-      :model-value="sortValue"
-      @update:model-value="value => value !== undefined && (sortValue = value)"
+      v-model="sortValue"
       :items="sortOptions.map(option => ({ label: option.label, value: option.value }))"
     />
   </div>

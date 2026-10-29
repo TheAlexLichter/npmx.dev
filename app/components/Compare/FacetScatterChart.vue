@@ -308,8 +308,7 @@ onMounted(async () => {
         <SelectField
           class="w-full"
           id="select-facet-scatter-x"
-          :model-value="selectedFacetX"
-          @update:model-value="value => value !== undefined && (selectedFacetX = value)"
+          v-model="selectedFacetX"
           :items="chartableFacets.map(f => ({ label: resolveAxisLabel(f.name), value: f.name }))"
           :label="$t('compare.scatter_chart.x_axis')"
           size="sm"
@@ -323,8 +322,7 @@ onMounted(async () => {
         <SelectField
           class="w-full"
           id="select-facet-scatter-y"
-          :model-value="selectedFacetY"
-          @update:model-value="value => value !== undefined && (selectedFacetY = value)"
+          v-model="selectedFacetY"
           :items="chartableFacets.map(f => ({ label: resolveAxisLabel(f.name), value: f.name }))"
           :label="$t('compare.scatter_chart.y_axis')"
           size="sm"

@@ -164,8 +164,7 @@ const { selectedPackages, clearSelectedPackages } = usePackageSelection()
             :label="$t('filters.sort.label')"
             hidden-label
             id="sort-select"
-            :model-value="sortKeyModel"
-            @update:model-value="value => value !== undefined && (sortKeyModel = value)"
+            v-model="sortKeyModel"
             :items="
               availableSortKeys.map(keyConfig => ({
                 label: getSortKeyLabelKey(keyConfig.key),

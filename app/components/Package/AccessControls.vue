@@ -247,8 +247,7 @@ watch(
             :label="$t('package.access.select_team_label')"
             hidden-label
             id="grant-team-select"
-            :model-value="selectedTeam"
-            @update:model-value="value => value !== undefined && (selectedTeam = value)"
+            v-model="selectedTeam"
             name="grant-team"
             block
             size="sm"
@@ -268,8 +267,7 @@ watch(
             :label="$t('package.access.permission_label')"
             hidden-label
             id="grant-permission-select"
-            :model-value="permission"
-            @update:model-value="value => value !== undefined && (permission = value)"
+            v-model="permission"
             name="grant-permission"
             block
             size="sm"

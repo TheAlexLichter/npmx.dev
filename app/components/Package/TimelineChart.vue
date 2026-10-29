@@ -899,10 +899,7 @@ const timelineMetricTabs = computed(() => [
         </select>
 
         <div class="hidden sm:block">
-          <TabRoot
-            :model-value="activeTab"
-            @update:model-value="value => value !== undefined && (activeTab = value)"
-          >
+          <TabRoot v-model="activeTab">
             <TabList :ariaLabel="$t('package.timeline.chart.tab_aria_label')">
               <TabItem
                 v-for="tab in timelineMetricTabs"

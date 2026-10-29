@@ -374,12 +374,7 @@ useSeoMeta({
 
         <div v-else-if="packagesData && packagesData.some(p => p !== null)">
           <!-- View tabs -->
-          <TabRoot
-            :model-value="comparisonView"
-            @update:model-value="value => value !== undefined && (comparisonView = value)"
-            id-prefix="comparison"
-            class="mt-4"
-          >
+          <TabRoot v-model="comparisonView" id-prefix="comparison" class="mt-4">
             <TabList :ariaLabel="$t('compare.packages.section_comparison')">
               <TabItem value="table" tab-id="comparison-tab-table" icon="i-lucide:table">
                 {{ $t('compare.packages.table_view') }}

@@ -14,7 +14,7 @@ const props = defineProps<{
   value: T
 }>()
 
-const model = defineModel<T>()
+const model = defineModel<T>({ required: true })
 
 const uid = useId()
 const internalId = `${model.value}-${uid}`

@@ -5,7 +5,7 @@ import { SELECT_SIZES } from './types'
 const props = withDefaults(defineProps<SelectBaseProps>(), {
   size: 'md',
 })
-const model = defineModel<T>()
+const model = defineModel<T>({ required: true })
 </script>
 
 <template>

@@ -10,7 +10,7 @@ const props = withDefaults(
   },
 )
 
-const selectedValue = defineModel<T>()
+const selectedValue = defineModel<T>({ required: true })
 
 function tabId(value: string): string {
   return `${props.idPrefix}-${value}`
