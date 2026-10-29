@@ -212,7 +212,7 @@ const postUrl = computed(() => {
       <div class="relative block mb-3 p-0.5 bg-bg-muted rounded-lg">
         <LazyVideoPlayer
           :poster="post.embed.thumbnail"
-          playsInline
+          playsinline
           controls
           preload="none"
           :src="post.embed.playlist"

@@ -366,7 +366,8 @@ watch(lastExecutionTime, () => {
           :label="$t('org.members.filter_by_team')"
           hidden-label
           id="team-filter"
-          v-model="filterTeam"
+          :model-value="filterTeam"
+          @update:model-value="value => value !== undefined && (filterTeam = value)"
           name="team-filter"
           block
           size="sm"
@@ -476,8 +477,9 @@ watch(lastExecutionTime, () => {
                 { label: getRoleLabel('admin'), value: 'admin' },
                 { label: getRoleLabel('owner'), value: 'owner' },
               ]"
-              :value="member.role"
-              @update:modelValue="value => handleChangeRole(member.name, value as MemberRole)"
+              @update:modelValue="
+                value => value !== undefined && handleChangeRole(member.name, value)
+              "
             />
             <!-- Remove button -->
             <button
@@ -533,7 +535,8 @@ watch(lastExecutionTime, () => {
               :label="$t('org.members.role_label')"
               hidden-label
               id="new-member-role"
-              v-model="newRole"
+              :model-value="newRole"
+              @update:model-value="value => value !== undefined && (newRole = value)"
               name="new-member-role"
               block
               class="flex-1"
@@ -549,7 +552,8 @@ watch(lastExecutionTime, () => {
               :label="$t('org.members.team_label')"
               hidden-label
               id="new-member-team"
-              v-model="newTeam"
+              :model-value="newTeam"
+              @update:model-value="value => value !== undefined && (newTeam = value)"
               name="new-member-team"
               block
               class="flex-1"

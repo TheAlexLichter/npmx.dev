@@ -375,8 +375,8 @@ useSeoMeta({
         <div v-else-if="packagesData && packagesData.some(p => p !== null)">
           <!-- View tabs -->
           <TabRoot
-            v-model="comparisonView"
-            default-value="table"
+            :model-value="comparisonView"
+            @update:model-value="value => value !== undefined && (comparisonView = value)"
             id-prefix="comparison"
             class="mt-4"
           >
@@ -410,7 +410,6 @@ useSeoMeta({
                     :facet-loading="isFacetLoading(facet.id)"
                     :column-loading="columnLoading"
                     :bar="facet.id !== 'lastUpdated'"
-                    :headers="gridHeaders"
                   />
                 </CompareComparisonGrid>
               </div>

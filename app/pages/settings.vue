@@ -83,7 +83,8 @@ useSeoMeta({
               </label>
               <SelectField
                 id="theme-select"
-                v-model="colorMode.preference"
+                :model-value="colorMode.preference"
+                @update:model-value="value => value !== undefined && (colorMode.preference = value)"
                 block
                 size="sm"
                 class="max-w-48"
@@ -205,7 +206,10 @@ useSeoMeta({
                     { label: $t('settings.data_source.npm'), value: 'npm' },
                     { label: $t('settings.data_source.algolia'), value: 'algolia' },
                   ]"
-                  v-model="settings.searchProvider"
+                  :model-value="settings.searchProvider"
+                  @update:model-value="
+                    value => value !== undefined && (settings.searchProvider = value)
+                  "
                   block
                   size="sm"
                   class="max-w-48"
@@ -271,7 +275,8 @@ useSeoMeta({
                 <SelectField
                   id="language-select"
                   :items="locales.map(loc => ({ label: loc.name ?? '', value: loc.code }))"
-                  v-model="currentLocale"
+                  :model-value="currentLocale"
+                  @update:model-value="value => value !== undefined && (currentLocale = value)"
                   block
                   size="sm"
                   class="max-w-48"
